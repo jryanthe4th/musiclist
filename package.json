@@ -1,0 +1,10 @@
+{
+    "name": "YarnTest",
+    "version": "1.0.0",
+    "description": "Yarn test app",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+        "map-reverse": "^1.0.1"
+    }
+}
