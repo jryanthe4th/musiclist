@@ -8,10 +8,14 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const expressSession = require('express-session')({
-	secret: 'random strings here are good',
-	resave: false,
-	saveUninitialized: false,
+    secret: 'random strings here are good',
+    resave: false,
+    saveUninitialized: false,
 });
+const webpack = require('webpack');
+const webpackConfig = require('./webpack.config');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 const User = require('./models/user');
 
 const index = require('./routes/index');
@@ -22,7 +26,7 @@ const app = express();
 
 // Connect to mongoose
 mongoose.connect('mongodb://localhost/musiclist', {
-	useMongoClient: true,
+    useMongoClient: true,
 });
 
 // view engine setup
@@ -38,11 +42,24 @@ app.use(cookieParser());
 app.use(expressSession);
 app.use(passport.initialize());
 app.use(passport.session());
+// Webpack Server
+const webpackCompiler = webpack(webpackConfig);
+app.use(webpackDevMiddleware(webpackCompiler, {
+    publicPath: webpackConfig.output.publicPath,
+    stats: {
+        colors: true,
+        chunks: true,
+        'errors-only': true,
+    },
+}));
+app.use(webpackHotMiddleware(webpackCompiler, {
+    log: console.log,
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
 app.use('/api', api);
 app.use('/api/users', users);
+app.use('/*', index);
 
 
 passport.use(new LocalStrategy(User.authenticate()));
@@ -51,20 +68,20 @@ passport.deserializeUser(User.deserializeUser());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-	const err = new Error('Not Found');
-	err.status = 404;
-	next(err);
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler
 app.use((err, req, res, next) => {
-	// set locals, only providing error in development
-	res.locals.message = err.message;
-	res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-	// render the error page
-	res.status(err.status || 500);
-	res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;
