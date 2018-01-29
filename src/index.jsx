@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Template from './components/Template';
