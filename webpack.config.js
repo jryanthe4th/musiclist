@@ -38,6 +38,20 @@ module.exports = {
                 exclude: /(node_modules|bower_components|public\/)/,
                 loader: 'babel-loader',
             },
+            {
+                test: /.scss$/,
+                use: ExtractTextPlugin.extract({
+                    use: [
+                        {
+                            loader: 'css-loader',
+                        },
+                        {
+                            loader: 'sass-loader',
+                        },
+                    ],
+                    fallback: 'style-loader',
+                }),
+            },
         ],
     },
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import './css/musiclist.scss';
 import Template from './components/Template';
 
 const renderApp = (Component) => {
