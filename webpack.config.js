@@ -27,19 +27,19 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.css$/,
+                test: /\.jsx?$/,
+                exclude: /(node_modules|bower_components|public\/)/,
+                loader: 'babel-loader',
+            },
+            {
+                test: /\.css$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: 'css-loader',
                 }),
             },
             {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components|public\/)/,
-                loader: 'babel-loader',
-            },
-            {
-                test: /.scss$/,
+                test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
                     use: [
                         {
