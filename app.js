@@ -1,3 +1,4 @@
+require('babel-register');
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -13,7 +14,7 @@ const expressSession = require('express-session')({
     saveUninitialized: false,
 });
 const webpack = require('webpack');
-const webpackConfig = require('./webpack.config');
+const webpackConfig = require('./webpack.config.babel');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const User = require('./models/user');
@@ -43,19 +44,23 @@ app.use(cookieParser());
 app.use(expressSession);
 app.use(passport.initialize());
 app.use(passport.session());
+
 // Webpack Server
-const webpackCompiler = webpack(webpackConfig);
-app.use(webpackDevMiddleware(webpackCompiler, {
-    publicPath: webpackConfig.output.publicPath,
-    stats: {
-        colors: true,
-        chunks: true,
-        'errors-only': true,
-    },
-}));
-app.use(webpackHotMiddleware(webpackCompiler, {
-    log: console.log,
-}));
+if (process.env.NODE_ENV !== 'production') {
+    const webpackCompiler = webpack(webpackConfig);
+    app.use(webpackDevMiddleware(webpackCompiler, {
+        publicPath: webpackConfig.output.publicPath,
+        stats: {
+            colors: true,
+            chunks: true,
+            'errors-only': true,
+        },
+    }));
+    app.use(webpackHotMiddleware(webpackCompiler, {
+        log: console.log
+    }));
+}
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', api);
