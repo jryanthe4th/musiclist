@@ -11,15 +11,22 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './css/musiclist.scss';
 
 // Default export from a local file
-import Store from './store';
+import DevTools from './components/shared/DevTools';
+import configureStore from './store';
 
+// JSX Modules
 import TemplateContainer from './components/TemplateContainer';
+
+const Store = configureStore();
 
 const renderApp = (Component) => {
     render(
         <AppContainer>
             <Provider store={Store}>
-                <Component />
+                <div>
+                    <Component />
+                    <DevTools />
+                </div>
             </Provider>
         </AppContainer>,
         document.querySelector('#react-app'),
