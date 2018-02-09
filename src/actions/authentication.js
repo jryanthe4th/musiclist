@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import { decrementProgress, incrementProgress } from './progress';
 
 // Action Creators
@@ -8,6 +9,51 @@ export const logoutFailure = error => ({ type: 'AUTHENTICATION_LOGOUT_FAILURE', 
 export const logoutSuccess = () => ({ type: 'AUTHENTICATION_LOGOUT_SUCCESS' });
 export const sessionCheckFailure = () => ({ type: 'AUTHENTICATION_SESSION_CHECK_FAILURE' });
 export const sessionCheckSuccess = json => ({ type: 'AUTHENTICATION_SESSION_CHECK_SUCCESS', json });
+
+// Log User In
+export function logUserIn(userData) {
+    return async (dispatch) => {
+        // Turn on spinner
+        dispatch(incrementProgress());
+
+        // Register that a login attept is being made
+        dispatch(loginAttempt());
+
+        // Contact login API
+        await fetch(
+            // Where to contact
+            '/api/authentication/login',
+            // What to send
+            {
+                method: 'POST',
+                body: JSON.stringify(userData),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin',
+            },
+        )
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                return null;
+            })
+            .then((json) => {
+                if (json) {
+                    dispatch(loginSuccess(json));
+                } else {
+                    dispatch(loginFailure(new Error('Authentication Failed')));
+                }
+            })
+            .catch((error) => {
+                dispatch(loginFailure(new Error(error)));
+            });
+
+        // Turn off spinner
+        return dispatch(decrementProgress());
+    };
+}
 
 // Log User Out
 export function logUserOut() {
