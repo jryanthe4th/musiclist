@@ -10,20 +10,49 @@ export const logoutSuccess = () => ({ type: 'AUTHENTICATION_LOGOUT_SUCCESS' });
 export const sessionCheckFailure = () => ({ type: 'AUTHENTICATION_SESSION_CHECK_FAILURE' });
 export const sessionCheckSuccess = json => ({ type: 'AUTHENTICATION_SESSION_CHECK_SUCCESS', json });
 
+// Check User Session
+export function checkSession() {
+    return async (dispatch) => {
+        // contact the API
+        await fetch(
+            // where to contact
+            '/api/authentication/checksession',
+            // what to send
+            {
+                method: 'GET',
+                credentials: 'same-origin',
+            },
+        )
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                return null;
+            })
+            .then((json) => {
+                if (json.username) {
+                    return dispatch(sessionCheckSuccess(json));
+                }
+                return dispatch(sessionCheckFailure());
+            })
+            .catch(error => dispatch(sessionCheckFailure(error)));
+    };
+}
+
 // Log User In
 export function logUserIn(userData) {
     return async (dispatch) => {
-        // Turn on spinner
+        // turn on spinner
         dispatch(incrementProgress());
 
-        // Register that a login attept is being made
+        // register that a login attept is being made
         dispatch(loginAttempt());
 
-        // Contact login API
+        // contact login API
         await fetch(
-            // Where to contact
+            // where to contact
             '/api/authentication/login',
-            // What to send
+            // what to send
             {
                 method: 'POST',
                 body: JSON.stringify(userData),
@@ -50,7 +79,7 @@ export function logUserIn(userData) {
                 dispatch(loginFailure(new Error(error)));
             });
 
-        // Turn off spinner
+        // turn off spinner
         return dispatch(decrementProgress());
     };
 }
@@ -58,14 +87,14 @@ export function logUserIn(userData) {
 // Log User Out
 export function logUserOut() {
     return async (dispatch) => {
-        // Turn on spinner
+        // turn on spinner
         dispatch(incrementProgress());
 
-        // Contact the API
+        // contact the API
         await fetch(
-            // Where to contact
+            // where to contact
             '/api/authentication/logout',
-            // What to send
+            // what to send
             {
                 method: 'GET',
                 credentials: 'same-origin',
@@ -82,7 +111,7 @@ export function logUserOut() {
                 dispatch(logoutFailure(new Error(error)));
             });
 
-        // Turn off spinner
+        // turn off spinner
         return dispatch(decrementProgress());
     };
 }

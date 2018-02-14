@@ -11,9 +11,9 @@ mongoose.Promise = global.Promise;
 // GET to /checksession
 router.get('/checksession', (req, res) => {
     if (req.user) {
-        return res.send(JSON.stringify(req.user));
+        return res.send(JSON.stringify(req.user, console.log('hey checksession worked!')));
     }
-    return res.send(JSON.stringify({}));
+    return res.send(JSON.stringify({}, console.log('hey checksession did not work!')));
 });
 
 // GET to /logout

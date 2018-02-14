@@ -8,6 +8,7 @@ export default class LoginPage extends React.Component {
         // Bound functions
         this.compileFormData = this.compileFormData.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
 
         // Component state
@@ -20,6 +21,13 @@ export default class LoginPage extends React.Component {
     // Update state as email value changes
     handleEmailChange(e) {
         this.setState({ email: e.target.value });
+    }
+
+    // Catch enter clicks
+    handleKeyPress(target) {
+        if (target.charCode === 13) {
+            this.compileFormData();
+        }
     }
 
     // Update state as password value changes
@@ -42,23 +50,27 @@ export default class LoginPage extends React.Component {
                             <FormGroup>
                                 <Label for="exampleEmail">Email</Label>
                                 <Input
-                                    type="email"
-                                    name="email"
                                     id="userEmail"
-                                    placeholder="noreply@musiclist.com"
-                                    value={this.state.email}
+                                    name="email"
                                     onChange={this.handleEmailChange}
+                                    onKeyPress={this.handleKeyPress}
+                                    placeholder="noreply@musiclist.com"
+                                    required
+                                    type="email"
+                                    value={this.state.email}
                                 />
                             </FormGroup>
                             <FormGroup>
                                 <Label for="examplePassword">Password</Label>
                                 <Input
-                                    type="password"
-                                    name="password"
                                     id="userPassword"
-                                    placeholder="password"
-                                    value={this.state.password}
+                                    name="password"
                                     onChange={this.handlePasswordChange}
+                                    onKeyPress={this.handleKeyPress}
+                                    placeholder="password"
+                                    required
+                                    type="password"
+                                    value={this.state.password}
                                 />
                             </FormGroup>
                             <Button onClick={this.compileFormData} id="signup-btn">Log In</Button>
