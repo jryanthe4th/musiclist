@@ -13,5 +13,8 @@
         "indent": [2, 4],
         "no-tabs": 0,
         "react/jsx-indent": [0, 4],
+        "no-underscore-dangle": "off",
+        "react/jsx-indent-props": ["error", 4],
+        "function-paren-newline": "off",
     }
 }

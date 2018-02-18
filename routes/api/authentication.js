@@ -11,9 +11,9 @@ mongoose.Promise = global.Promise;
 // GET to /checksession
 router.get('/checksession', (req, res) => {
     if (req.user) {
-        return res.send(JSON.stringify(req.user, console.log('hey checksession worked!')));
+        return res.send(JSON.stringify(req.user));
     }
-    return res.send(JSON.stringify({}, console.log('hey checksession did not work!')));
+    return res.send(JSON.stringify({}));
 });
 
 // GET to /logout
@@ -53,13 +53,20 @@ router.post('/register', (req, res) => {
     });
 
     // Save, via passport's "register" method, the user
-    User.register(newUser, req.body.password, (err, user) => {
+    User.register(newUser, req.body.password, (err) => {
         // If there's a problem, send back a JSON object with the error
         if (err) {
             return res.send(JSON.stringify({ error: err }));
         }
-        // Otherwise, for now, send back a JSON object with a new user's info
-        return res.send(JSON.stringify(user));
+        // Otherwise log them in
+        return passport.authenticate('local')(req, res, () => {
+            // If logged in, we should have user info to send back
+            if (req.user) {
+                return res.send(JSON.stringify(req.user));
+            }
+            // Otherwise return an error
+            return res.send(JSON.stringify({ error: 'There was an error logging in' }));
+        });
     });
 });
 
