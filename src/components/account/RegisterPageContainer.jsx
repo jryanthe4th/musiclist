@@ -19,7 +19,14 @@ export class RegisterPageContainer extends React.Component {
     }
 
     render() {
-        const { isLoggedIn } = this.props.authentication;
+        const { isLoggedIn, registrationSucceeded } = this.props.authentication;
+
+        // Forward to a success page
+        if (registrationSucceeded) {
+            return (
+                <Redirect to="/account/registration-success" />
+            );
+        }
 
         // User needs to be logged out to register
         if (isLoggedIn) {
