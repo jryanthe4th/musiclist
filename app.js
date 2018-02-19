@@ -1,9 +1,9 @@
 require('babel-register');
-// const appConfig = require('./config.js');
+const appConfig = require('./config.js');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
-// const expressSession = require('express-session');
+const expressSession = require('express-session');
 const favicon = require('serve-favicon');
 // const helmet = require('helmet');
 const LocalStrategy = require('passport-local').Strategy;
@@ -41,12 +41,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(require('express-session')({
-    secret: 'any random string can go here',
-    resave: false,
-    saveUninitialized: false,
-}));
+// app.use(require('express-session')({
+//     secret: 'any random string can go here',
+//     resave: false,
+//     saveUninitialized: false,
+// }));
 
+// Express Session
+const sessionValues = {
+    cookie: {},
+    name: 'sessionId',
+    resave: false,
+    saveUninitialized: true,
+    secret: appConfig.expressSession.secret,
+};
+
+app.use(expressSession(sessionValues));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
