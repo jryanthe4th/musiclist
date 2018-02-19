@@ -61,6 +61,7 @@ export default class LoginPage extends React.Component {
                                     type="email"
                                     value={this.state.email}
                                 />
+                                <AvFeedback>Valid email required to log in</AvFeedback>
                             </AvGroup>
                             <AvGroup>
                                 <Label for="examplePassword">Password</Label>
@@ -74,6 +75,7 @@ export default class LoginPage extends React.Component {
                                     type="password"
                                     value={this.state.password}
                                 />
+                                <AvFeedback>Password required to log in</AvFeedback>
                             </AvGroup>
                             <Button color="primary" id="signup-btn">Log In</Button>
                         </AvForm>
