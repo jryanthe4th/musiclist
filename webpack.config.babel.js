@@ -29,17 +29,23 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx'],
     },
-    plugins: [
-        new webpack.NamedModulesPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
-        new ExtractTextPlugin(cssOutputLocation),
-    ],
     module: {
         rules: [
             {
                 test: /\.jsx?$/,
                 exclude: /(node_modules|bower_components|public\/)/,
                 loader: 'babel-loader',
+                query: {
+                    presets: ['es2015', 'es2017'],
+                },
+            },
+            {
+                test: /\.js?$/,
+                exclude: /(node_modules|bower_components|public\/)/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015', 'es2017'],
+                },
             },
             {
                 test: /\.css$/,
@@ -64,6 +70,11 @@ module.exports = {
             },
         ],
     },
+    plugins: [
+        new webpack.NamedModulesPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
+        new ExtractTextPlugin(cssOutputLocation),
+    ],
 };
 
 if (process.env.NODE_ENV === 'production') {

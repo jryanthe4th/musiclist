@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ErrorBox from './shared/ErrorBoxContainer';
-
+import ChangePasswordPage from './account/ChangePasswordPageContainer';
 import HeaderContainer from './shared/HeaderContainer';
 import HomePage from './home/HomePageContainer';
 import LoginPage from './account/LoginPageContainer';
@@ -20,6 +20,7 @@ export default function Template(props) {
                     <ErrorBox />
                     <Route exact path="/" component={HomePage} />
                     <Route exact path="/account/login" component={LoginPage} />
+                    <Route path="/account/change-password/:hash" component={ChangePasswordPage} />
                     <Route exact path="/account/register" component={RegisterPage} />
                     <Route exact path="/account/registration-success" component={RegistrationSuccessPage} />
                     <Route exact path="/account/reset-password" component={ResetPasswordPage} />

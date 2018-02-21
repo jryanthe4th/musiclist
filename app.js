@@ -73,7 +73,7 @@ if (process.env.NODE_ENV !== 'production') {
         },
     }));
     app.use(webpackHotMiddleware(webpackCompiler, {
-        log: console.log
+        log: console.log,
     }));
 }
 

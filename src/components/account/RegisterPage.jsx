@@ -76,7 +76,7 @@ export default class RegisterPage extends React.Component {
                             <Label for="password">Password</Label>
                             <AvInput
                                 id="password"
-                                minLength="6"
+                                minLength="8"
                                 name="password"
                                 onChange={this.handleInputChange}
                                 onKeyPress={this.handleKeyPress}
@@ -85,7 +85,7 @@ export default class RegisterPage extends React.Component {
                                 type="password"
                                 value={this.state.password}
                             />
-                            <AvFeedback>Passwords must be at least six characters in length</AvFeedback>
+                            <AvFeedback>Passwords must be at least eight characters in length</AvFeedback>
                         </AvGroup>
 
                         <AvGroup>

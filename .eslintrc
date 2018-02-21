@@ -17,5 +17,6 @@
         "react/jsx-indent-props": ["error", 4],
         "function-paren-newline": "off",
         "max-len": "off",
+        "no-console": "off",
     }
 }
