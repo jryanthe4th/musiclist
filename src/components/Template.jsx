@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import AlbumsPage from './albums/AlbumsPageContainer';
 import ErrorBox from './shared/ErrorBoxContainer';
 import ChangePasswordPage from './account/ChangePasswordPageContainer';
 import HeaderContainer from './shared/HeaderContainer';
@@ -25,6 +27,7 @@ export default function Template(props) {
                     <Route exact path="/account/registration-success" component={RegistrationSuccessPage} />
                     <Route exact path="/account/reset-password" component={ResetPasswordPage} />
                     <Route path="/account/profile/:id" component={ProfilePage} />
+                    <Route exact path="/albums" component={AlbumsPage} />
                     <div className="loader-wrapper" style={progress > 0 ? { display: 'block' } : { display: 'none' }}>
                         <div className="loader-box">
                             <div className="loader">Loading...</div>
