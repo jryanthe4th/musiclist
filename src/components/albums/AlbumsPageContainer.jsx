@@ -6,14 +6,18 @@ import { addAlbum, albumSearchClear, searchAlbums } from '../../actions/albums';
 import AlbumsPage from './AlbumsPage';
 
 export class AlbumsPageContainer extends React.Component {
-
     componentWillUnmount() {
         const { dispatch } = this.props;
         dispatch(albumSearchClear());
     }
 
     render() {
-        const { addAlbumFunction, albums, searchAlbumsFunction, user } = this.props;
+        const {
+            addAlbumFunction,
+            albums,
+            searchAlbumsFunction,
+            user,
+        } = this.props;
         return (
             <AlbumsPage
                 addAlbumFunction={addAlbumFunction}
