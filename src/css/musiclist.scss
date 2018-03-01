@@ -83,6 +83,28 @@ header {
     } /* loader-box */
 } /* loader-wrapper */
 
+/* Flexbox tables */
+table.flex {
+    tr {
+        display: flex;
+
+        th, td {
+            flex-basis: 25%;
+
+            &.thumb {
+                flex-basis: auto;
+                width: 100px;
+                text-align: center;
+                padding: 10px;
+
+                img {
+                    width: 80px;
+                }
+            }
+        }
+    }
+}
+
 .form-control::-webkit-input-placeholder { color: #D5D8DC; }
 .form-control::-moz-placeholder { color: #D5D8DC; }
 .form-control:-ms-input-placeholder { color: #D5D8DC; }
