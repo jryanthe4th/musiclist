@@ -15,7 +15,7 @@ const formatAlbum = (album) => {
 };
 
 export default function Sidebar(props) {
-    const { latestAlbum } = props
+    const { latestAlbum } = props;
     return (
         <aside className="col-sm-12 col-md-4">
             <Card>

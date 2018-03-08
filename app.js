@@ -1,6 +1,7 @@
 require('babel-register');
 const appConfig = require('./config.js');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const expressSession = require('express-session');
@@ -42,6 +43,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression());
 
 // app.use(require('express-session')({
 //     secret: 'any random string can go here',
