@@ -1,6 +1,8 @@
 const appConfig = require('../../config.js');
 const crypto = require('crypto');
+const createDOMPurify = require('dompurify');
 const express = require('express');
+const { JSDOM } = require('jsdom');
 const mailgun = require('mailgun-js')({
     apiKey: appConfig.mailgun.apiKey,
     domain: appConfig.mailgun.domain,
@@ -58,12 +60,17 @@ router.post('/register', async (req, res) => {
     // Create a user object to save, using values from incoming JSON
     if (!foundUser) {
         // sanitize data
-        const newUser = new User({
-            username: req.body.username,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-        });
+        const window = (new JSDOM('')).window;
+        const DOMPurify = createDOMPurify(window);
+        const sanitizedBody = {
+            username: DOMPurify.sanitize(req.body.username),
+            email: DOMPurify.sanitize(req.body.email),
+            firstName: DOMPurify.sanitize(req.body.firstName),
+            lastName: DOMPurify.sanitize(req.body.lastName),
+            password: req.body.password,
+        };
+
+        const newUser = new User(sanitizedBody);
 
         // Save, via passport's "register" method, the user
         return User.register(newUser, req.body.password, (err) => {
